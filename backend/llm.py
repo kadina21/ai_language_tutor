@@ -35,7 +35,7 @@ def generate_lesson(language: str, topic: str) -> dict:
             "stream": False,
             "context": None
         },
-        timeout=60
+        timeout=120
     )
 
     response_text = response.json()["response"]
@@ -73,15 +73,18 @@ def create_exercise_from_vocabulary(language: str, vocabulary: list) -> dict:
     
     This ensures the correct answers match exactly what was shown in the lesson.
     Only uses vocabulary from the lesson itself - no off-topic words.
+    Limits questions to a maximum of 5.
     """
     import random
     
     questions = []
     
-    # Get all translations from this lesson's vocabulary
-    all_translations = [v["translation"] for v in vocabulary]
+    # Limit to 5 questions, or fewer if vocabulary has fewer items
+    num_questions = min(5, len(vocabulary))
+    # Randomly select which vocabulary items to use for questions
+    selected_vocab = random.sample(vocabulary, num_questions)
     
-    for i, word in enumerate(vocabulary):
+    for i, word in enumerate(selected_vocab):
         correct = word["translation"]
         
         # Get other translations from the vocabulary as wrong options

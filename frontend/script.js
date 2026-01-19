@@ -173,18 +173,74 @@ function generateNewLesson() {
   loadLesson(null, currentTopic);
 }
 
-// Text-to-speech for individual word (only the Tamazight word)
-function speakWord(word) {
-  // Cancel any ongoing speech
+// Text-to-speech for individual word using Meta's MMS TTS
+async function speakWord(word) {
+  try {
+    console.log(`Requesting TTS for: ${word}`);
+    const response = await fetch(`${API_BASE_URL}/api/tts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: word,
+        language: currentLanguage
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.error) {
+      console.error("TTS error:", data.error);
+      // Fallback to browser TTS
+      fallbackSpeech(word);
+      return;
+    }
+    
+    console.log("Audio received, converting and playing...");
+    
+    // Decode base64 to ArrayBuffer
+    const binaryString = atob(data.audio);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    
+    // Create a blob from the bytes
+    const blob = new Blob([bytes], { type: 'audio/wav' });
+    const audioUrl = URL.createObjectURL(blob);
+    
+    console.log("Audio blob created, URL:", audioUrl);
+    
+    // Create and play audio
+    const audio = new Audio(audioUrl);
+    
+    audio.onplay = () => console.log("Audio playback started");
+    audio.onended = () => {
+      console.log("Audio playback ended");
+      URL.revokeObjectURL(audioUrl); // Clean up
+    };
+    audio.onerror = (e) => {
+      console.error("Audio playback error:", e);
+      fallbackSpeech(word);
+    };
+    
+    audio.play().catch((error) => {
+      console.error("Could not play audio:", error);
+      fallbackSpeech(word);
+    });
+  } catch (error) {
+    console.error("TTS request failed:", error);
+    fallbackSpeech(word); // Use browser TTS as fallback
+  }
+}
+
+// Fallback to browser's Web Speech API
+function fallbackSpeech(word) {
   speechSynthesis.cancel();
-  
-  // Only speak the word itself, not translation or pronunciation guide
   const utterance = new SpeechSynthesisUtterance(word);
-  
-  // Use Moroccan Arabic for TTS as it's closest to Tamazight phonetics
   utterance.lang = "ar-MA";
   utterance.rate = 1;
-  
   speechSynthesis.speak(utterance);
 }
 

@@ -6,6 +6,7 @@ from pathlib import Path
 from pydantic import BaseModel
 from typing import List, Optional
 from llm import generate_lesson, generate_exercise
+from tts import synthesize_speech
 
 app = FastAPI()
 
@@ -77,3 +78,15 @@ def exercise(request: ExerciseRequest):
     """Generate an exercise based on the vocabulary from a lesson."""
     vocabulary = [item.model_dump() for item in request.vocabulary]
     return generate_exercise(request.language, vocabulary)
+
+
+@app.post("/api/tts")
+def text_to_speech(request: dict):
+    """Generate speech from Tamazight text."""
+    text = request.get("text", "")
+    language = request.get("language", "Central Atlas Tamazight")
+    
+    if not text:
+        return {"error": "No text provided"}
+    
+    return synthesize_speech(text, language)

@@ -8,9 +8,10 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   padding: 15px;
+  min-height: 100vh;
 }
 
 .container {
@@ -18,8 +19,22 @@ body {
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
-  padding: 40px;
+  max-width: 80vw;
+  padding: 48px;
   position: relative;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Responsive tweak: smaller padding and no forced min-height on small screens */
+@media (max-width: 520px) {
+  .container {
+    padding: 20px;
+    min-height: auto;
+    border-radius: 14px;
+  }
 }
 
 .screen {
