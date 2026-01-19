@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Language Tutor</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Language Selection Screen -->
+    <div id="languageScreen" class="screen active">
+      <h1>AI Language Tutor</h1>
+      <p class="subtitle">Learn Tamazight Languages</p>
+      <div class="form-group">
+        <label for="languageSelect">Select a language:</label>
+        <select id="languageSelect" class="select-input">
+          <option value="">Loading languages...</option>
+        </select>
+      </div>
+      <p class="instructions" id="instructions"></p>
+      <button id="startBtn" class="btn btn-primary" disabled>Start</button>
+    </div>
+
+    <!-- Lesson List Screen -->
+    <div id="lessonListScreen" class="screen">
+      <h1>Choose a Lesson</h1>
+      <p class="subtitle" id="selectedLanguage"></p>
+      <button class="btn btn-secondary" onclick="goBackToLanguage()">← Back</button>
+      <div id="lessonList" class="lesson-list">
+        <div class="loading">Loading lessons...</div>
+      </div>
+    </div>
+
+    <!-- Lesson Display Screen -->
+    <div id="lessonScreen" class="screen">
+      <h1>Your Lesson</h1>
+      <p class="subtitle" id="lessonLanguage"></p>
+      <button class="btn btn-secondary" onclick="goBackToList()">← Back to Lessons</button>
+      <div class="lesson-content">
+        <div id="lessonOutput" class="lesson-text">
+          <div class="loading">Generating your lesson...</div>
+        </div>
+        <div class="lesson-actions">
+          <button id="exerciseBtn" class="btn btn-primary" onclick="startExercise()" disabled>
+            📝 Start Exercise
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exercise Screen -->
+    <div id="exerciseScreen" class="screen">
+      <h1>Practice Exercise</h1>
+      <p class="subtitle" id="exerciseLanguage"></p>
+      <button class="btn btn-secondary" onclick="goBackToLesson()">← Back to Lesson</button>
+      <div class="exercise-content">
+        <p class="exercise-instructions" id="exerciseInstructions"></p>
+        <div id="exerciseQuestions" class="exercise-questions">
+          <div class="loading">Generating exercise...</div>
+        </div>
+        <div class="exercise-results" id="exerciseResults" style="display: none;">
+          <h3>Results</h3>
+          <p id="scoreText"></p>
+          <button class="btn btn-primary" onclick="retryExercise()">🔄 Try Again</button>
+          <button class="btn btn-secondary" onclick="goBackToList()">📚 More Lessons</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
