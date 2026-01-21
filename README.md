@@ -36,7 +36,7 @@ ai_language_tutor/
 
 - **Backend**: FastAPI 0.104.1, Uvicorn
 - **LLM**: Ollama with `translategemma:12b` model
-- **ML Libraries**: Transformers, PyTorch, SciPy, NumPy
+- **ML Libraries**: Transformers, SciPy, NumPy
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript
 - **Server**: Python 3.10+
 
@@ -107,6 +107,11 @@ Edit [backend/llm.py](backend/llm.py) and modify the `model` parameter in the `g
 ```python
 "model": "your-preferred-model:tag"
 ```
+
+#### LLM comparison
+
+This version is using free LLMs able to run locally on your machine. Here's a chart comparing the LLMs I tested during development for 10 words of Tachelhit and an overall comparison with GPT 5.
+![Chart showing the results of the comparison between a few LLMs on whether or not they could translate well 10 words in Tachelhit](LLMAnalysisChart.png)
 
 ### Customizing Prompts
 
