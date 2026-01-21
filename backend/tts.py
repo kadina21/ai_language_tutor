@@ -13,9 +13,7 @@ MODELS = {}
 LANGUAGE_MODELS = {
     "Central Atlas Tamazight": "facebook/mms-tts-shi",    # Tachelhit
     "Kabyle": "facebook/mms-tts-kab",                      # Taqbaylit
-    "Tachelhit": "facebook/mms-tts-shi",                   # Tachelhit
     "Tarifit": "facebook/mms-tts-rif",                     # Tarifit
-    "Tamasheq": "facebook/mms-tts-taq",                    # Tamasheq
 }
 
 
